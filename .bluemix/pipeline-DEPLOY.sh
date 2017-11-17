@@ -23,10 +23,10 @@ echo "KMHA: CF_ORG..${CF_ORG}"
 echo "KMHA: CF_SPACE..${CF_SPACE}"
 CF_UNION="$CF_ORG"_"$CF_SPACE"
 echo "KMHA: CF_UNION..${CF_UNION}"
-SPACE_KEY=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "$CF_UNION") | .key'`
+SPACE_KEY=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "Analitica Visual_dev") | .key'`
 echo "KMHA: SPACE_KEY..${SPACE_KEY}"
 
-SPACE_UUID=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "$CF_UNION") | .uuid'`
+SPACE_UUID=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "Analitica Visual_dev") | .uuid'`
 echo "KMHA: SPACE_UUID..${SPACE_UUID}"
 
 CLOUDFUNCTIONS_AUTH=$SPACE_UUID:$SPACE_KEY
