@@ -3,6 +3,7 @@
 export WSK=${WSK-wsk}
 export CF=${CF-cf}
 
+echo "KMHA: 1"
 PROVIDERS_FILE='providers.json'
 
 CLOUDANT_URL=''
@@ -10,9 +11,13 @@ CLOUDANT_AUTH_DBNAME='authdb'
 CLOUDANT_CONTEXT_DBNAME='contextdb'
 AUTH_DOC=''
 
+echo "KMHA: 2"
 DEPLOY=1 # whether to go through or to skip the deployment step
 NO_NAME=0 # whether to forgo using a deployment name
 
+echo "KMHA: 3"
+wsk property get --auth
+echo "KMHA: 4"
 ### READ AND PROCESS ARGUMENT FLAGS
 while getopts ":hns" opt; do
   case $opt in
