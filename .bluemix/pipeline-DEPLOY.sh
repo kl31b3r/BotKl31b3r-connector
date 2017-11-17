@@ -24,18 +24,15 @@ echo "KMHA: CF_SPACE..${CF_SPACE}"
 CF_UNION="$CF_ORG"_"$CF_SPACE"
 echo "KMHA: CF_UNION..${CF_UNION}"
 SPACE_KEY=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "$CF_UNION") | .key'`
-echo "KMHA: ${SPACE_KEY}"
+echo "KMHA: SPACE_KEY..${SPACE_KEY}"
 
-echo 'KMHA: Until SPACE_UUID...'
 SPACE_UUID=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "$CF_UNION") | .uuid'`
-echo 'KMHA:' ${SPACE_UUID}
+echo "KMHA: SPACE_UUID..${SPACE_UUID}"
 
-echo 'KMHA: UntilCLOUDFUNCTIONS_AUTH...'
 CLOUDFUNCTIONS_AUTH=$SPACE_UUID:$SPACE_KEY
-
-echo 'KMHA: Until Configure the Cloud Functions CLI...'
 echo 'KMHA:' ${CLOUDFUNCTIONS_AUTH}
 
+echo 'KMHA: Until Configure the Cloud Functions CLI...'
 # Configure the Cloud Functions CLI
 wsk property set --apihost $CLOUDFUNCTIONS_API_HOST --auth "${CLOUDFUNCTIONS_AUTH}"
 
