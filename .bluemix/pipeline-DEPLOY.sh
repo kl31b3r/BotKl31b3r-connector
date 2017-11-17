@@ -13,14 +13,23 @@ echo 'Retrieving Cloud Functions authorization key...'
 # Retrieve the Cloud Functions authorization key
 CF_ACCESS_TOKEN=`cat ~/.cf/config.json | jq -r .AccessToken | awk '{print $2}'`
 
+echo 'KMHA: Until CLOUDFUNCTIONS_API_HOST...'
+
 export CLOUDFUNCTIONS_API_HOST=openwhisk.ng.bluemix.net
+
+echo 'KMHA: Until CLOUDFUNCTIONS_KEYS...'
 
 CLOUDFUNCTIONS_KEYS=`curl -XPOST -k -d "{ \"accessToken\" : \"$CF_ACCESS_TOKEN\", \"refreshToken\" : \"$CF_ACCESS_TOKEN\" }" \
   -H 'Content-Type:application/json' https://$CLOUDFUNCTIONS_API_HOST/bluemix/v2/authenticate`
 
+echo 'KMHA: Until SPACE_KEY...'
+
 SPACE_KEY=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "'$CF_ORG'_'$CF_SPACE'") | .key'`
 SPACE_UUID=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "'$CF_ORG'_'$CF_SPACE'") | .uuid'`
 CLOUDFUNCTIONS_AUTH=$SPACE_UUID:$SPACE_KEY
+
+echo 'KMHA: Until Configure the Cloud Functions CLI...'
+echo ${CLOUDFUNCTIONS_AUTH}
 
 # Configure the Cloud Functions CLI
 wsk property set --apihost $CLOUDFUNCTIONS_API_HOST --auth "${CLOUDFUNCTIONS_AUTH}"
