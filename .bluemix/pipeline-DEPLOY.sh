@@ -23,13 +23,19 @@ CLOUDFUNCTIONS_KEYS=`curl -XPOST -k -d "{ \"accessToken\" : \"$CF_ACCESS_TOKEN\"
   -H 'Content-Type:application/json' https://$CLOUDFUNCTIONS_API_HOST/bluemix/v2/authenticate`
 
 echo 'KMHA: Until SPACE_KEY...'
-
+echo "KMHA: CF_ORG..${CF_ORG}"
 SPACE_KEY=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "'$CF_ORG'_'$CF_SPACE'") | .key'`
+echo "KMHA: ${SPACE_KEY}"
+
+echo 'KMHA: Until SPACE_UUID...'
 SPACE_UUID=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "'$CF_ORG'_'$CF_SPACE'") | .uuid'`
+echo 'KMHA:' ${SPACE_UUID}
+
+echo 'KMHA: UntilCLOUDFUNCTIONS_AUTH...'
 CLOUDFUNCTIONS_AUTH=$SPACE_UUID:$SPACE_KEY
 
 echo 'KMHA: Until Configure the Cloud Functions CLI...'
-echo ${CLOUDFUNCTIONS_AUTH}
+echo 'KMHA:' ${CLOUDFUNCTIONS_AUTH}
 
 # Configure the Cloud Functions CLI
 wsk property set --apihost $CLOUDFUNCTIONS_API_HOST --auth "${CLOUDFUNCTIONS_AUTH}"
