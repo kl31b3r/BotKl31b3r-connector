@@ -18,13 +18,12 @@ export CLOUDFUNCTIONS_API_HOST=openwhisk.ng.bluemix.net
 CLOUDFUNCTIONS_KEYS=`curl -XPOST -k -d "{ \"accessToken\" : \"$CF_ACCESS_TOKEN\", \"refreshToken\" : \"$CF_ACCESS_TOKEN\" }" \
   -H 'Content-Type:application/json' https://$CLOUDFUNCTIONS_API_HOST/bluemix/v2/authenticate`
 
-echo 'KMHA: Until SPACE_KEY...'
 echo "KMHA: CLOUDFUNCTIONS_KEYS..${CLOUDFUNCTIONS_KEYS}"
 echo "KMHA: CF_ORG..${CF_ORG}"
 echo "KMHA: CF_SPACE..${CF_SPACE}"
 CF_UNION="$CF_ORG"_"$CF_SPACE"
 echo "KMHA: CF_UNION..${CF_UNION}"
-SPACE_KEY=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "Analitica Visual_dev") | .key'`
+SPACE_KEY=`echo $CLOUDFUNCTIONS_KEYS | jq -r '.namespaces[] | select(.name == "$CF_UNION") | .key'`
 echo "KMHA: ${SPACE_KEY}"
 
 echo 'KMHA: Until SPACE_UUID...'
@@ -40,4 +39,5 @@ echo 'KMHA:' ${CLOUDFUNCTIONS_AUTH}
 # Configure the Cloud Functions CLI
 wsk property set --apihost $CLOUDFUNCTIONS_API_HOST --auth "${CLOUDFUNCTIONS_AUTH}"
 
+echo 'KMHA: Until setup.sh...'
 ./setup.sh -s
